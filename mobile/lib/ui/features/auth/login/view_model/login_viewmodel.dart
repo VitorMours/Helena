@@ -1,0 +1,9 @@
+
+
+class LoginPageViewModel {
+
+
+    LoginPageViewModel();
+
+
+}
