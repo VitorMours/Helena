@@ -7,6 +7,8 @@ class AppTheme {
   static const Color secondaryColor = Color(0xFF4CAF50); // Verde mais claro
   static const Color greyColor = Color(0xFFECE6F0); // Cinza
 
+  static const Color linkColor = Color(0xFF3C8FA5);
+
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: primaryColor,
@@ -22,6 +24,7 @@ class AppTheme {
       onSurface: Colors.black,
       onError: Colors.white,
     ),
+
 
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
@@ -132,7 +135,9 @@ class AppTheme {
         fontWeight: FontWeight.w500,
         color: Colors.white,
       ),
+
     ),
+
 
     // AppBar theme
     appBarTheme: AppBarTheme(
