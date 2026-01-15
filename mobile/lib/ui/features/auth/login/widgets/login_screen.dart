@@ -4,20 +4,18 @@ import "package:flutter/material.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:helena_app/ui/core/ui/widgets/FormInput.dart";
+import "package:helena_app/ui/core/ui/widgets/PasswordInput.dart";
+import "package:helena_app/ui/features/auth/login/view_model/login_viewmodel.dart";
 import "package:helena_app/utils/theme.dart";
+import "package:provider/provider.dart";
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
-  @override
-  State createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    LoginPageViewModel viewModel = context.watch<LoginPageViewModel>();
     final width = MediaQuery.of(context).size.width;
     final theme = Theme.of(context);
+
     return Scaffold(
       body: Column(
         spacing: 30,
@@ -48,25 +46,45 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   FormInput("credentials"),
-                  FormInput("password"),
+                  PasswordInput(
+                    "password",
+                    !viewModel.visibility,
+                    IconButton(
+                      icon: Icon(
+                        viewModel.visibility
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () => viewModel.toggleVisibility(),
+                    ),
+                  ),
                   SizedBox(
                     width: width,
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
                         onTap: () => context.push("/signin"),
-                        child: const Text("Don't have a account? Create one", style: TextStyle(decoration:TextDecoration.underline, color: AppTheme.linkColor)),
+                        child: const Text(
+                          "Don't have a account? Create one",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: AppTheme.linkColor,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                   Container(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 18),
                       ),
-                      child: const Text("Login", style: const TextStyle(fontSize: 20)),
+                      child: const Text(
+                        "Login",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      onPressed: () {},
                     ),
                   ),
                 ],

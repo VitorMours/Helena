@@ -2,28 +2,35 @@ import "package:flutter/material.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:helena_app/ui/core/ui/widgets/FormInput.dart";
+import "package:helena_app/ui/core/ui/widgets/PasswordInput.dart";
+import "package:helena_app/ui/features/auth/signin/viewmodel/signin_viewmodel.dart";
+import "package:provider/provider.dart";
 import "../../../../../utils/theme.dart";
 
 class SigninScreen extends StatelessWidget {
-  const SigninScreen({super.key});
+  SigninScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    SigninPageViewModel viewModel = context.watch<SigninPageViewModel>();
+
     final theme = Theme.of(context);
     final width = MediaQuery.of(context).size.width;
 
-    // Nota: Chaves e Controllers devem idealmente estar em um StatefulWidget
-    // ou gerenciador de estado para persistirem durante reconstruções.
+    // TODO: As chaves globais devem ficar no vewmodel junto com os controllers
     final signinFormKey = GlobalKey<FormState>();
 
     return Scaffold(
       // SafeArea evita que o conteúdo fique sob a barra de status ou "notch"
       body: SafeArea(
-        child: SingleChildScrollView( // Permite scroll se o teclado aparecer
+        child: SingleChildScrollView(
+          // Permite scroll se o teclado aparecer
           child: Container(
             constraints: BoxConstraints(
               // Garante que o conteúdo ocupe ao menos a altura da tela
-              minHeight: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
+              minHeight:
+                  MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).padding.top,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -55,11 +62,35 @@ class SigninScreen extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             Expanded(
-                              child: const FormInput("password"),
+                              child: PasswordInput(
+                                "password",
+                                !viewModel.passwordVisibility,
+                                IconButton(
+                                  icon: Icon(
+                                    viewModel.passwordVisibility
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                  ),
+                                  onPressed: () =>
+                                      viewModel.togglePasswordVisibility(),
+                                ),
+                              ),
                             ),
                             const Gap(12), // Espaço entre os campos de senha
                             Expanded(
-                              child: const FormInput("retype your password"),
+                              child: PasswordInput(
+                                "retype your password",
+                                !viewModel.retypePasswordVisibility,
+                                IconButton(
+                                  icon: Icon(
+                                    viewModel.retypePasswordVisibility
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                  ),
+                                  onPressed: () => viewModel
+                                      .toggleRetypePasswordVisibility(),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -89,7 +120,8 @@ class SigninScreen extends StatelessWidget {
                             ),
                             onPressed: () {
                               // Adicione a lógica de validação aqui
-                              if (signinFormKey.currentState?.validate() ?? false) {
+                              if (signinFormKey.currentState?.validate() ??
+                                  false) {
                                 // Lógica de registro
                               }
                             },

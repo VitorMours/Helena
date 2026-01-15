@@ -1,7 +1,10 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
+import "package:helena_app/ui/features/auth/login/view_model/login_viewmodel.dart";
 import "package:helena_app/ui/features/auth/login/widgets/login_screen.dart";
+import "package:helena_app/ui/features/auth/signin/viewmodel/signin_viewmodel.dart";
 import "package:helena_app/ui/features/splash/widgets/splash_screen.dart";
+import "package:provider/provider.dart";
 
 import "../ui/features/auth/signin/widgets/signin_screen.dart";
 
@@ -14,18 +17,24 @@ final GoRouter router = GoRouter(
       pageBuilder: (BuildContext context, GoRouterState state) =>
           CustomTransitionPage(
             key: state.pageKey,
-            child: SigninScreen(),
+            child: ChangeNotifierProvider(
+              create: (_) => SigninPageViewModel(),
+              child: SigninScreen(),
+            ),
             transitionDuration: Duration(milliseconds: 900),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
                   return SlideTransition(
-                    position: Tween<Offset>(begin: Offset(-1.0, 0), end: Offset.zero)
-                        .animate(
-                      CurvedAnimation(
-                        parent: animation,
-                        curve: Curves.easeInOutCubicEmphasized,
-                      ),
-                    ),
+                    position:
+                        Tween<Offset>(
+                          begin: Offset(-1.0, 0),
+                          end: Offset.zero,
+                        ).animate(
+                          CurvedAnimation(
+                            parent: animation,
+                            curve: Curves.easeInOutCubicEmphasized,
+                          ),
+                        ),
                     child: child,
                   );
                 },
@@ -37,7 +46,10 @@ final GoRouter router = GoRouter(
       pageBuilder: (BuildContext context, GoRouterState state) {
         return CustomTransitionPage(
           key: state.pageKey,
-          child: LoginScreen(),
+          child: ChangeNotifierProvider(
+            create: (_) => LoginPageViewModel(),
+            child: LoginScreen(),
+          ),
           transitionDuration: Duration(milliseconds: 900),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return SlideTransition(

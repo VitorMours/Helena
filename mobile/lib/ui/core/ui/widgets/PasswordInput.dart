@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 
-class FormInput extends StatefulWidget {
+class PasswordInput extends StatefulWidget {
   final String hintText;
 
-  const FormInput(this.hintText, {super.key});
+  IconButton suffixIcon;
+
+  bool obscureText = true;
+
+  PasswordInput(this.hintText, this.obscureText, this.suffixIcon, {super.key});
 
   @override
-  State createState() => FormInputState();
+  State createState() => PasswordInputState();
 }
 
-class FormInputState extends State<FormInput> {
+class PasswordInputState extends State<PasswordInput> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return TextFormField(
+      obscureText: widget.obscureText,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: theme.colorScheme.secondary, width: 2),
         ),
+
         border: OutlineInputBorder(
           borderSide: BorderSide(color: theme.colorScheme.outline, width: 2),
         ),
@@ -30,6 +36,7 @@ class FormInputState extends State<FormInput> {
           fontSize: 14,
           color: theme.hintColor,
         ),
+        suffixIcon: widget.suffixIcon,
       ),
     );
   }
