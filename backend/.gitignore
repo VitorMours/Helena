@@ -1,0 +1,89 @@
+### Python ###
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+### Ambientes Virtuais (Venv/Conda) ###
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+bin/
+include/
+lib/
+
+### Variáveis de Ambiente (Segurança!) ###
+.env
+.env.local
+.env.dev
+.env.test
+.env.prod
+.env.*
+!.env.example  # Mantemos o exemplo para referência
+
+### FastAPI / Server (Uvicorn/Gunicorn) ###
+*.log
+logs/
+access.log
+error.log
+
+### Banco de Dados (SQLite, Migrations, etc) ###
+*.db
+*.sqlite3
+# Se usar migrations (Alembic), não ignore a pasta 'versions', 
+# mas ignore caches se necessário.
+
+### Testes & Qualidade (Pytest, Coverage, MyPy) ###
+.target/
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+
+### IDEs (VS Code, PyCharm) ###
+.vscode/
+!.vscode/settings.json  # Opcional: manter configs de equipe
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+### Docker ###
+.docker/
+# Ignora dados persistidos por volumes locais no desenvolvimento
+docker/db_data/
+docker/redis_data/
+
+### Sistema Operacional ###
+.DS_Store
+Thumbs.db
