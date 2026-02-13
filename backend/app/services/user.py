@@ -1,7 +1,8 @@
 from typing import List
 from sqlalchemy.orm import Session 
 from app.models.user import User
-from app.schemas.user import UserCreate, UserRead
+from app.schemas.user import UserCreate, UserRead, UserUpdate
+import uuid
 
 class UserService:
   def __init__(self, session: Session) -> None:
@@ -24,3 +25,10 @@ class UserService:
     self._db.refresh(new_user)
     return new_user
   
+
+  def update_user(self, user: UserUpdate) -> User:
+    pass 
+
+
+  def delete_user(self, uuid: uuid.UUID) -> None:
+    pass

@@ -1,4 +1,3 @@
-# o model define a conexao com o banco de dados
 from sqlalchemy import String, Integer, Boolean, UUID, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column
 import uuid
