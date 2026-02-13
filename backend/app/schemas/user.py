@@ -18,6 +18,10 @@ class UserRead(BaseModel):
   created_at: datetime 
   updated_at: datetime
   
-
 class UserUpdate(BaseModel):
-  pass
+  first_name: str
+  last_name: str
+  email: str
+  password: str
+  is_active: bool
+  

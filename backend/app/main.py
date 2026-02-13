@@ -6,6 +6,7 @@ from app.db import create_tables
 
 setup_logging()
 create_tables()
+
 app = FastAPI(title = config.app_name)
 
 

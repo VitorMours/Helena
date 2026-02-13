@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends 
 from app.db import SessionLocal
 from app.services.user import UserService
-from app.schemas.user import UserCreate, UserRead
+from app.schemas.user import UserCreate, UserRead, UserUpdate
 import uuid
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -19,3 +19,13 @@ async def get_user_by_id(id: uuid.UUID, service: UserService = Depends(get_user_
 @router.post("/", response_model=UserRead)
 async def create_user(user: UserCreate, service: UserService = Depends(get_user_service)):
   return service.create_user(user)
+
+
+@router.patch("/{id}", response_model=UserRead)
+async def update_user(id: uuid.UUID, user: UserUpdate, service: UserService = Depends(get_user_service)):
+  return service.update_user(id, user)
+
+
+@router.delete("/{id}", response_model=UserRead)
+async def delete_user(id: uuid.UUID, service: UserService = Depends(get_user_service)):
+  return service.delete_user(id)
