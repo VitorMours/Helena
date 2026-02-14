@@ -1,19 +1,24 @@
-from pydantic import BaseModel 
-from datetime import datetime 
+from pydantic import BaseModel
+from datetime import datetime
 import uuid
-from app.models.user import User 
+from app.schemas.user import UserRead
 
 class HabitRead(BaseModel):
+    model_config = {"from_attributes": True}
     id: uuid.UUID
     name: str
     content: str
     conclusion: bool
-    created_at: datetime 
+    created_at: datetime
     updated_at: datetime
-    user: User
-    
-class HabitCreate(BaseModel): 
+    user: UserRead
+
+class HabitCreate(BaseModel):
     name: str
     content: str
     conclusion: bool
-    user: User
+    user_id: uuid.UUID
+
+
+class HabitUpdate(BaseModel):
+    pass

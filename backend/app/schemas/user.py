@@ -10,6 +10,7 @@ class UserCreate(BaseModel):
   password: str
     
 class UserRead(BaseModel):
+  model_config = {"from_attributes": True}
   id: uuid.UUID 
   first_name: str
   last_name: str
@@ -22,13 +23,6 @@ class UserUpdate(BaseModel):
   first_name: str
   last_name: str
   email: str
-<<<<<<< HEAD
-  password: str 
-  is_active: bool
-  
-  
-=======
   password: str
   is_active: bool
->>>>>>> 01b2d26929458167f9c266d208b9fd2e3c8e3bb7
   
