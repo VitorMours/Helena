@@ -20,5 +20,5 @@ class HabitCreate(BaseModel):
     user_id: uuid.UUID
 
 
-class HabitUpdate(BaseModel):
+class HabitUpdate(HabitCreate):
     pass

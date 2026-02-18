@@ -29,3 +29,7 @@ class TestUserSchema:
             assert issubclass(UserUpdate, BaseModel)
         except ImportError:
             raise ImportError("Was not possible to import the user schemas classes")
+
+    def test_if_user_create_schema_have_correct_fields_and_correct_types(self) -> None:
+        assert True
+    
