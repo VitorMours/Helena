@@ -7,7 +7,7 @@ from datetime import datetime
 class Habit(Base):
     __tablename__ = "tb_habits"
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID, primary_key = True, index=True)
+    id: Mapped[uuid.UUID] = mapped_column(UUID, primary_key = True, index=True, default=uuid.uuid4)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     content: Mapped[str] = mapped_column(String(125), nullable=False)
     conclusion: Mapped[bool] = mapped_column(Boolean, default=True)
@@ -15,4 +15,3 @@ class Habit(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
     user_id: Mapped[uuid.UUID] = mapped_column(UUID, ForeignKey("tb_users.id"))
     user: Mapped["User"] = relationship("User", back_populates="habits")
-    

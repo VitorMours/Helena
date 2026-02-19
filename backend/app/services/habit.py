@@ -39,5 +39,10 @@ class HabitService:
     def deactivate_habit(self) -> None:
         pass 
 
-    def delete_habit(self) -> None:
-        pass
+    def delete_habit(self, habit_id: uuid.UUID) -> None:
+        habit = self.get_habit_by_id(habit_id)
+        if not habit:
+            return None 
+        self._db.delete(habit)
+        self._db.commit()
+        return True

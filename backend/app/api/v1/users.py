@@ -20,7 +20,6 @@ async def get_user_by_id(id: uuid.UUID, service: UserService = Depends(get_user_
 async def create_user(user: UserCreate, service: UserService = Depends(get_user_service)):
   return service.create_user(user)
 
-
 @router.patch("/{id}", response_model=UserRead)
 async def update_user(id: uuid.UUID, user: UserUpdate, service: UserService = Depends(get_user_service)):
   return service.update_user(id, user)

@@ -50,10 +50,22 @@ class TestHabitSchema:
     assert set(read_fields) == habit_read_fields 
     assert set(update_fields) == habit_update_fields 
     
-  def test_if_habit_schemas_have_correct_field_types(self) -> None:
+  def test_if_habit_create_schema_have_correct_field_types(self) -> None:
     expected_fields_types = {"str","str","bool","UUID"}
     module = importlib.import_module("app.schemas.habit")
     field_types = {
       field.annotation.__name__ for field in module.HabitCreate.model_fields.values()
     }    
     assert field_types == expected_fields_types
+
+  def test_if_habit_read_schema_have_correct_field_types(self) -> None:
+    expected_fields_types = {"UUID","str","str","bool","datetime","datetime","UserRead"}
+    module = importlib.import_module("app.schemas.habit")
+    field_types = {
+      field.annotation.__name__ for field in module.HabitRead.model_fields.values()
+    }
+    assert field_types == expected_fields_types
+    
+    
+
+

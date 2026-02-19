@@ -11,7 +11,7 @@ def get_auth_service() -> AuthService:
 
 @router.post("/token", response_model = Token)
 async def generate_token(login: Login, auth_service: AuthService = Depends(get_auth_service)):
-    return {"message": "Login successful"}
+  pass  
   
 @router.post("/token/verify")
 async def verify_token():

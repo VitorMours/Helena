@@ -2,6 +2,7 @@ from typing import List
 from sqlalchemy.orm import Session 
 from app.models.user import User
 from app.schemas.user import UserCreate, UserRead, UserUpdate
+from app.exceptions.user import UserAlreadyExists, UserDoesNotExists
 import uuid
 
 class UserService:
@@ -12,24 +13,36 @@ class UserService:
     return self._db.query(User).all()
   
   def get_user_by_id(self, user_id: int) -> User:
-    return self._db.query(User).filter(User.id == user_id).first()    
+    if user_searched := self._db.query(User).filter(User.id == user_id).first():
+      return user_searched
+    else:
+      raise UserDoesNotExists("Does not exists a user with this id in the database.")    
   
   def get_user_by_email(self, email: str) -> User:
-    return self._db.query(User).filter(User.email == email).first()
-  
+    if user_searched := self._db.query(User).filter(User.email == email).first():
+      return user_searched 
+    else:
+      raise UserDoesNotExists("Does not exists a user with this email in the database.")
+      
   def create_user(self, user: UserCreate) -> User:
     user_data = user.model_dump()
-    new_user = User(**user_data)
-    self._db.add(new_user)
-    self._db.commit()
-    self._db.refresh(new_user)
-    return new_user
+    check_user = self._db.query(User).filter(User.email == user_data["email"]).first()
+
+    if check_user:
+      print(check_user)
+      raise UserAlreadyExists("User already exists in the database, try to login.")
+    else:
+      new_user = User(**user_data)
+      self._db.add(new_user)
+      self._db.commit()
+      self._db.refresh(new_user)
+      return new_user
   
   def update_user(self, user_id: uuid, user: UserUpdate) -> User | None:
-    searched_user = self.get_user_by_id(user_id)
+    if not (searched_user := self.get_user_by_id(user_id)):
+      raise UserDoesNotExists("Does not exists this user in the database.")
 
-    if not searched_user:
-      return None
+    # TODO: A senha nao vai ser mudada aqui, entao verificar se a senha ta igual se nao, levantar o erro de credenciais invalidas / erradas
 
     user_data = user.model_dump(exclude_unset=True)
     

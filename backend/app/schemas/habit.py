@@ -22,3 +22,8 @@ class HabitCreate(BaseModel):
 
 class HabitUpdate(HabitCreate):
     pass
+
+
+# TODO: Precisa fazer os testes unitarios
+class HabitDelete(BaseModel):
+    id: uuid.UUID
