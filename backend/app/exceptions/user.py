@@ -10,3 +10,6 @@ class UserDoesNotExists(UserGeneralException):
 
 class IncorrectUserCredentials(UserGeneralException):
   pass
+
+class UserDoesNotFound(UserGeneralException):
+  pass

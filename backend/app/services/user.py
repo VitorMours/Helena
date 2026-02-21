@@ -2,8 +2,9 @@ from typing import List
 from sqlalchemy.orm import Session 
 from app.models.user import User
 from app.schemas.user import UserCreate, UserRead, UserUpdate
-from app.exceptions.user import UserAlreadyExists, UserDoesNotExists
+from app.exceptions.user import UserAlreadyExists, UserDoesNotExists, UserDoesNotFound
 import uuid
+from app.services.auth import AuthService
 
 class UserService:
   def __init__(self, session: Session) -> None:
@@ -16,15 +17,15 @@ class UserService:
     if user_searched := self._db.query(User).filter(User.id == user_id).first():
       return user_searched
     else:
-      raise UserDoesNotExists("Does not exists a user with this id in the database.")    
+      raise UserDoesNotFound("Does not exists a user with this id in the database.")    
   
   def get_user_by_email(self, email: str) -> User:
     if user_searched := self._db.query(User).filter(User.email == email).first():
       return user_searched 
     else:
-      raise UserDoesNotExists("Does not exists a user with this email in the database.")
+      raise UserDoesNotFound("Does not exists a user with this email in the database.")
       
-  def create_user(self, user: UserCreate) -> User:
+  def create_user(self, user: UserCreate, auth_service: AuthService) -> User:
     user_data = user.model_dump()
     check_user = self._db.query(User).filter(User.email == user_data["email"]).first()
 
@@ -33,6 +34,7 @@ class UserService:
       raise UserAlreadyExists("User already exists in the database, try to login.")
     else:
       new_user = User(**user_data)
+      new_user.password = auth_service.hash_password(new_user.password)
       self._db.add(new_user)
       self._db.commit()
       self._db.refresh(new_user)

@@ -6,7 +6,7 @@ from app.api.v1.users import router as user_router
 from app.api.v1.habits import router as habit_router
 from app.api.v1.auth import router as auth_router
 from app.db import create_tables
-from app.exceptions.user import UserAlreadyExists, IncorrectUserCredentials
+from app.exceptions.user import UserAlreadyExists, IncorrectUserCredentials, UserDoesNotFound
 
 setup_logging()
 create_tables()
@@ -24,7 +24,6 @@ async def user_already_exists_error(request: Request, exc: UserAlreadyExists):
     }
   )
   
-  
 @app.exception_handler(IncorrectUserCredentials)
 async def incorrect_user_crendetials_error(request: Request, exc: IncorrectUserCredentials):
   return JSONResponse(
@@ -35,6 +34,19 @@ async def incorrect_user_crendetials_error(request: Request, exc: IncorrectUserC
       "path":request.url.path,
     }
   )
+
+@app.exception_handler(UserDoesNotFound)
+async def user_does_not_found(request: Request, exc: UserDoesNotFound):
+  return JSONResponse(
+    status_code=400,
+    content = {
+      "error":"UserDoesNotFound",
+      "message":str(exc),
+      "path":request.url.path
+    }
+  )
+
+
 
 app.include_router(user_router)
 app.include_router(habit_router)
