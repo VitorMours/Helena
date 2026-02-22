@@ -6,8 +6,14 @@ class PasswordInput extends StatefulWidget {
   IconButton suffixIcon;
 
   bool obscureText = true;
-
-  PasswordInput(this.hintText, this.obscureText, this.suffixIcon, {super.key});
+  TextEditingController controller;
+  PasswordInput(
+    this.hintText,
+    this.obscureText,
+    this.suffixIcon, {
+    super.key,
+    required this.controller,
+  });
 
   @override
   State createState() => PasswordInputState();
@@ -18,6 +24,7 @@ class PasswordInputState extends State<PasswordInput> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return TextFormField(
+      controller: widget.controller,
       obscureText: widget.obscureText,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(

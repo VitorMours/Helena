@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
+import "package:helena_app/services/auth_service.dart"; // Certifique-se de importar o service
 import "package:helena_app/ui/features/auth/login/view_model/login_viewmodel.dart";
 import "package:helena_app/ui/features/auth/login/widgets/login_screen.dart";
 import "package:helena_app/ui/features/auth/signin/viewmodel/signin_viewmodel.dart";
@@ -18,16 +19,17 @@ final GoRouter router = GoRouter(
           CustomTransitionPage(
             key: state.pageKey,
             child: ChangeNotifierProvider(
-              create: (_) => SigninPageViewModel(),
+              // Injetando o AuthService no Signin também
+              create: (context) => SigninPageViewModel(),
               child: SigninScreen(),
             ),
-            transitionDuration: Duration(milliseconds: 900),
+            transitionDuration: const Duration(milliseconds: 900),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
                   return SlideTransition(
                     position:
                         Tween<Offset>(
-                          begin: Offset(-1.0, 0),
+                          begin: const Offset(-1.0, 0),
                           end: Offset.zero,
                         ).animate(
                           CurvedAnimation(
@@ -47,14 +49,18 @@ final GoRouter router = GoRouter(
         return CustomTransitionPage(
           key: state.pageKey,
           child: ChangeNotifierProvider(
-            create: (_) => LoginPageViewModel(),
+            create: (context) =>
+                LoginPageViewModel(authService: context.read<AuthService>()),
             child: LoginScreen(),
           ),
-          transitionDuration: Duration(milliseconds: 900),
+          transitionDuration: const Duration(milliseconds: 900),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return SlideTransition(
-              position: Tween<Offset>(begin: Offset(1.0, 0), end: Offset.zero)
-                  .animate(
+              position:
+                  Tween<Offset>(
+                    begin: const Offset(1.0, 0),
+                    end: Offset.zero,
+                  ).animate(
                     CurvedAnimation(
                       parent: animation,
                       curve: Curves.easeInOutCubicEmphasized,

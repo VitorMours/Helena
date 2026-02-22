@@ -10,6 +10,10 @@ import "package:helena_app/utils/theme.dart";
 import "package:provider/provider.dart";
 
 class LoginScreen extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     LoginPageViewModel viewModel = context.watch<LoginPageViewModel>();
@@ -36,6 +40,7 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
           Form(
+            key: _formKey,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 0,
@@ -45,8 +50,9 @@ class LoginScreen extends StatelessWidget {
                 spacing: 24,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FormInput("credentials"),
+                  FormInput("credentials", controller: emailController),
                   PasswordInput(
+                    controller: passwordController,
                     "password",
                     !viewModel.visibility,
                     IconButton(
@@ -80,11 +86,21 @@ class LoginScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 18),
                       ),
-                      child: const Text(
-                        "Login",
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      onPressed: () {},
+                      child: viewModel.loginIsLoading
+                          ? CircularProgressIndicator()
+                          : const Text(
+                              "Entrar",
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          var response = await viewModel.login(
+                            emailController.text,
+                            passwordController.text,
+                          );
+                          print(response);
+                        }
+                      },
                     ),
                   ),
                 ],

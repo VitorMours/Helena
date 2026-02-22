@@ -1,14 +1,18 @@
 from datetime import datetime, timedelta, timezone
 from http.client import HTTPException
 import json
+from fastapi.responses import JSONResponse
 import jwt 
-from app.exceptions.user import UserDoesNotFound
-from app.schemas.auth import Login
+from app.exceptions.user import UserAlreadyExists, UserDoesNotFound
+from app.schemas.auth import Login, Signin
+from app.schemas.user import UserCreate
 from pwdlib import PasswordHash
 from sqlalchemy.orm import Session 
 from typing import TYPE_CHECKING
+
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
+
 if TYPE_CHECKING:
     from app.services.user import UserService # Só importa para fins de "IDE"
     
@@ -35,7 +39,18 @@ class AuthService:
       "access_token": access_token,
       "token_type": "bearer"
     }
+    
+  def create_account(self, credentials: Signin, user_service: "UserService") -> json:
+    signin_data = credentials.model_dump() 
+    try:
+      user_service.get_user_by_email(signin_data["email"])
+        
+      raise UserAlreadyExists("Already exists a user registered with this email.")
+    except UserDoesNotFound:
+      new_user = user_service.create_user(UserCreate(**signin_data), self)
+      return new_user
 
+    
   def hash_password(self, password:str) -> str:
     return self.password_hash.hash(password)
   

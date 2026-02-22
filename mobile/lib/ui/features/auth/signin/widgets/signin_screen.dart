@@ -9,6 +9,11 @@ import "../../../../../utils/theme.dart";
 
 class SigninScreen extends StatelessWidget {
   SigninScreen({super.key});
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final retypeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +22,13 @@ class SigninScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final width = MediaQuery.of(context).size.width;
 
-    // TODO: As chaves globais devem ficar no vewmodel junto com os controllers
     final signinFormKey = GlobalKey<FormState>();
 
     return Scaffold(
-      // SafeArea evita que o conteúdo fique sob a barra de status ou "notch"
       body: SafeArea(
         child: SingleChildScrollView(
-          // Permite scroll se o teclado aparecer
           child: Container(
             constraints: BoxConstraints(
-              // Garante que o conteúdo ocupe ao menos a altura da tela
               minHeight:
                   MediaQuery.of(context).size.height -
                   MediaQuery.of(context).padding.top,
@@ -52,17 +53,34 @@ class SigninScreen extends StatelessWidget {
                         Text(
                           "and start developing your habits",
                           style: theme.textTheme.titleLarge,
-
                           textAlign: TextAlign.center,
                         ),
                         const Gap(35),
-                        const FormInput("credentials"),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: FormInput(
+                                "first name",
+                                controller: firstNameController,
+                              ),
+                            ),
+                            Gap(12),
+                            Expanded(
+                              child: FormInput(
+                                "last name",
+                                controller: lastNameController,
+                              ),
+                            ),
+                          ],
+                        ),
                         const Gap(24),
-                        // Correção da Row: Widgets de input precisam de Expanded para dividir o espaço
+                        FormInput(controller: emailController, "email"),
+                        const Gap(24),
                         Row(
                           children: <Widget>[
                             Expanded(
                               child: PasswordInput(
+                                controller: passwordController,
                                 "password",
                                 !viewModel.passwordVisibility,
                                 IconButton(
@@ -76,9 +94,10 @@ class SigninScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const Gap(12), // Espaço entre os campos de senha
+                            const Gap(12),
                             Expanded(
                               child: PasswordInput(
+                                controller: retypeController,
                                 "retype your password",
                                 !viewModel.retypePasswordVisibility,
                                 IconButton(
@@ -120,8 +139,7 @@ class SigninScreen extends StatelessWidget {
                             ),
                             onPressed: () {
                               // Adicione a lógica de validação aqui
-                              if (signinFormKey.currentState?.validate() ??
-                                  false) {
+                              if (signinFormKey.currentState!.validate()) {
                                 // Lógica de registro
                               }
                             },

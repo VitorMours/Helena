@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse 
 from app.core.config import config
 from app.core.logging import setup_logging
@@ -12,11 +13,20 @@ setup_logging()
 create_tables()
 
 app = FastAPI(title = config.app_name)
+origins = ['*']
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.exception_handler(UserAlreadyExists)
 async def user_already_exists_error(request: Request, exc: UserAlreadyExists):
   return JSONResponse(
-    status_code = 400,
+    status_code = 409,
     content={
       "error":"UserAlreadyExistsError",
       "message":str(exc),
@@ -38,7 +48,7 @@ async def incorrect_user_crendetials_error(request: Request, exc: IncorrectUserC
 @app.exception_handler(UserDoesNotFound)
 async def user_does_not_found(request: Request, exc: UserDoesNotFound):
   return JSONResponse(
-    status_code=400,
+    status_code=404,
     content = {
       "error":"UserDoesNotFound",
       "message":str(exc),

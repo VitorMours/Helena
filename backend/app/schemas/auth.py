@@ -10,3 +10,10 @@ class TokenData(BaseModel):
 class Login(BaseModel):
   email: str
   password: str
+  
+  
+class Signin(BaseModel):
+  first_name: str
+  last_name: str
+  email: str 
+  password: str
