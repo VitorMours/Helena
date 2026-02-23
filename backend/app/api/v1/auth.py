@@ -4,7 +4,7 @@ from app.schemas.auth import Signin, Token, Login
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from app.services.user import UserService
 from app.db import SessionLocal
-from app.schemas.user import UserCreate
+from app.schemas.user import UserCreate, UserRead
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -22,8 +22,8 @@ async def login(login: Login, user_service:UserService = Depends(get_user_servic
   token = auth_service.authenticate(login, user_service)
   return token
   
-@router.post("/signin", response_model=UserCreate)
-async def signin(signin: Signin, user_service: UserService = Depends(get_user_service),
+@router.post("/signin", response_model=UserRead)
+async def signin(signin: Signin, user_service: UserService = Depends(get_user_service), 
                                  auth_service: AuthService = Depends(get_auth_service)
   ):
   user = auth_service.create_account(signin, user_service)
