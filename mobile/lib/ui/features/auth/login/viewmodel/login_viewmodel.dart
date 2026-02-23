@@ -20,6 +20,7 @@ class LoginPageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // TODO: Precisa corrigir para adicionar correcao ao errar a senha
   Future<bool> login(String email, String password) async {
     _loginIsLoading = true;
     notifyListeners();

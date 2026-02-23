@@ -19,4 +19,29 @@ class AuthService {
       throw "Erro ao conectar com o servidor.";
     }
   }
+
+  Future<SigninModel> signin(
+    String firstName,
+    String lastName,
+    String email,
+    String password,
+  ) async {
+    try {
+      final response = await client.post(
+        "/auth/signin",
+        data: {
+          "first_name": firstName,
+          "last_name": lastName,
+          "email": email,
+          "password": password,
+        },
+      );
+      return SigninModel.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 409) {
+        throw "Esse usuario ja existe";
+      }
+      throw "Erro ao conectar com o servidor.";
+    }
+  }
 }

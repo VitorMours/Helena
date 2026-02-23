@@ -5,7 +5,7 @@ import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:helena_app/ui/core/ui/widgets/FormInput.dart";
 import "package:helena_app/ui/core/ui/widgets/PasswordInput.dart";
-import "package:helena_app/ui/features/auth/login/view_model/login_viewmodel.dart";
+import "package:helena_app/ui/features/auth/login/viewmodel/login_viewmodel.dart";
 import "package:helena_app/utils/theme.dart";
 import "package:provider/provider.dart";
 
@@ -98,7 +98,6 @@ class LoginScreen extends StatelessWidget {
                             emailController.text,
                             passwordController.text,
                           );
-                          print(response);
                         }
                       },
                     ),

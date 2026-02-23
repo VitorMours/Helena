@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:helena_app/services/auth_service.dart"; // Certifique-se de importar o service
-import "package:helena_app/ui/features/auth/login/view_model/login_viewmodel.dart";
+import "package:helena_app/ui/features/auth/login/viewmodel/login_viewmodel.dart";
 import "package:helena_app/ui/features/auth/login/widgets/login_screen.dart";
 import "package:helena_app/ui/features/auth/signin/viewmodel/signin_viewmodel.dart";
 import "package:helena_app/ui/features/splash/widgets/splash_screen.dart";
@@ -20,7 +20,8 @@ final GoRouter router = GoRouter(
             key: state.pageKey,
             child: ChangeNotifierProvider(
               // Injetando o AuthService no Signin também
-              create: (context) => SigninPageViewModel(),
+              create: (context) =>
+                  SigninPageViewModel(authService: context.read<AuthService>()),
               child: SigninScreen(),
             ),
             transitionDuration: const Duration(milliseconds: 900),

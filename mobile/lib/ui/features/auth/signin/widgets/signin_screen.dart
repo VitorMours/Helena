@@ -138,9 +138,8 @@ class SigninScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 18),
                             ),
                             onPressed: () {
-                              // Adicione a lógica de validação aqui
                               if (signinFormKey.currentState!.validate()) {
-                                // Lógica de registro
+                                
                               }
                             },
                             child: const Text(
