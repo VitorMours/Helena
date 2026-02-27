@@ -50,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                 spacing: 24,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FormInput("credentials", controller: emailController),
+                  FormInput("credentials", controller: emailController, validator: (_) => viewModel.loginError),
                   PasswordInput(
                     controller: passwordController,
                     "password",
@@ -94,11 +94,11 @@ class LoginScreen extends StatelessWidget {
                             ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          var response = await viewModel.login(
+                          var success = await viewModel.login(
                             emailController.text,
                             passwordController.text,
                           );
-                          print(response);
+                          print(success);
                         }
                       },
                     ),

@@ -62,6 +62,7 @@ class SigninScreen extends StatelessWidget {
                               child: FormInput(
                                 "first name",
                                 controller: firstNameController,
+                                validator: () => {}
                               ),
                             ),
                             Gap(12),
@@ -69,12 +70,13 @@ class SigninScreen extends StatelessWidget {
                               child: FormInput(
                                 "last name",
                                 controller: lastNameController,
+                                validator: () => {}
                               ),
                             ),
                           ],
                         ),
                         const Gap(24),
-                        FormInput(controller: emailController, "email"),
+                        FormInput(controller: emailController, "email",validator: () => {}),
                         const Gap(24),
                         Row(
                           children: <Widget>[

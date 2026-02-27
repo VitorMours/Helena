@@ -7,6 +7,7 @@ import "package:helena_app/ui/features/auth/signin/viewmodel/signin_viewmodel.da
 import "package:helena_app/ui/features/splash/widgets/splash_screen.dart";
 import "package:provider/provider.dart";
 
+import "../services/jwt_storage_service.dart";
 import "../ui/features/auth/signin/widgets/signin_screen.dart";
 
 final GoRouter router = GoRouter(
@@ -49,8 +50,10 @@ final GoRouter router = GoRouter(
         return CustomTransitionPage(
           key: state.pageKey,
           child: ChangeNotifierProvider(
-            create: (context) =>
-                LoginPageViewModel(authService: context.read<AuthService>()),
+            create: (context) => LoginPageViewModel(
+              authService: context.read<AuthService>(),
+              storageService: context.read<JWTStorageService>(),
+            ),
             child: LoginScreen(),
           ),
           transitionDuration: const Duration(milliseconds: 900),
