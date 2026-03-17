@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class FormInput extends StatefulWidget {
   final String hintText;
   final controller;
-  const FormInput(this.hintText, {super.key, required this.controller});
+  final validator;
+  const FormInput(this.hintText, {super.key, required this.controller, required this.validator});
 
   @override
   State createState() => FormInputState();
@@ -14,6 +15,7 @@ class FormInputState extends State<FormInput> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return TextFormField(
+      validator: widget.validator,
       controller: widget.controller,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(

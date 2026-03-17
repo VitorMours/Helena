@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:helena_app/services/auth_service.dart'; // Importe seu serviço
+import 'package:helena_app/services/jwt_storage_service.dart';
 import 'package:helena_app/utils/routes.dart';
 import 'package:helena_app/utils/theme.dart';
-import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import "package:hive/hive.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
+  await Hive.openBox("auth");
   runApp(
     MultiProvider(
-      providers: [Provider<AuthService>(create: (_) => AuthService())],
+      providers: [
+        Provider<AuthService>(create: (_) => AuthService()),
+        Provider<JWTStorageService>(create: (_) => JWTStorageService()),
+      ],
       child: MyApp(),
     ),
   );
