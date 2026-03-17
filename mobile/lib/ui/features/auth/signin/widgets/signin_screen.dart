@@ -9,11 +9,15 @@ import "../../../../../utils/theme.dart";
 
 class SigninScreen extends StatelessWidget {
   SigninScreen({super.key});
+
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final retypeController = TextEditingController();
+
+  // ✅ Movido para fora do build para evitar recriação a cada rebuild
+  final signinFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +25,6 @@ class SigninScreen extends StatelessWidget {
 
     final theme = Theme.of(context);
     final width = MediaQuery.of(context).size.width;
-
-    final signinFormKey = GlobalKey<FormState>();
 
     return Scaffold(
       body: SafeArea(
@@ -62,29 +64,48 @@ class SigninScreen extends StatelessWidget {
                               child: FormInput(
                                 "first name",
                                 controller: firstNameController,
-                                validator: () => {}
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Enter your first name";
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
-                            Gap(12),
+                            const Gap(12),
                             Expanded(
                               child: FormInput(
                                 "last name",
                                 controller: lastNameController,
-                                validator: () => {}
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Enter your last name";
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                           ],
                         ),
                         const Gap(24),
-                        FormInput(controller: emailController, "email",validator: () => {}),
+                        FormInput(
+                          "email",
+                          controller: emailController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Enter your email";
+                            }
+                            return null;
+                          },
+                        ),
                         const Gap(24),
                         Row(
                           children: <Widget>[
                             Expanded(
                               child: PasswordInput(
-                                controller: passwordController,
                                 "password",
                                 !viewModel.passwordVisibility,
+                                controller: passwordController,
                                 IconButton(
                                   icon: Icon(
                                     viewModel.passwordVisibility
@@ -99,9 +120,9 @@ class SigninScreen extends StatelessWidget {
                             const Gap(12),
                             Expanded(
                               child: PasswordInput(
-                                controller: retypeController,
                                 "retype your password",
                                 !viewModel.retypePasswordVisibility,
+                                controller: retypeController,
                                 IconButton(
                                   icon: Icon(
                                     viewModel.retypePasswordVisibility
@@ -141,7 +162,7 @@ class SigninScreen extends StatelessWidget {
                             ),
                             onPressed: () {
                               if (signinFormKey.currentState!.validate()) {
-                                
+                                // TODO: lógica de criação de conta
                               }
                             },
                             child: const Text(
