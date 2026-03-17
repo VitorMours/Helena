@@ -25,12 +25,13 @@ class AppTheme {
       onError: Colors.white,
     ),
 
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: Colors.white, // Cor da parte que gira
+    ),
 
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         foregroundColor: primaryColor,
         textStyle: GoogleFonts.poppins(
           fontWeight: FontWeight.w600,
@@ -45,14 +46,13 @@ class AppTheme {
       style: OutlinedButton.styleFrom(
         foregroundColor: primaryColor, // Cor do texto
         side: BorderSide(color: primaryColor, width: 2), // Borda
-        textStyle: GoogleFonts.poppins( // Método correto
+        textStyle: GoogleFonts.poppins(
+          // Método correto
           fontWeight: FontWeight.w600,
           fontSize: 16,
         ),
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
 
@@ -66,10 +66,8 @@ class AppTheme {
           fontSize: 16,
         ),
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-        elevation: 5
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        elevation: 5,
       ),
     ),
 
@@ -135,9 +133,7 @@ class AppTheme {
         fontWeight: FontWeight.w500,
         color: Colors.white,
       ),
-
     ),
-
 
     // AppBar theme
     appBarTheme: AppBarTheme(

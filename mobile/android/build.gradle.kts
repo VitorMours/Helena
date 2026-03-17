@@ -5,17 +5,25 @@ allprojects {
     }
 }
 
-val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
-rootProject.layout.buildDirectory.value(newBuildDir)
+// 1. Definimos o novo diretório de build de forma segura
+val customBuildDir = rootProject.layout.projectDirectory.dir("../../build")
+
+// 2. Aplicamos ao rootProject
+rootProject.layout.buildDirectory.set(customBuildDir)
 
 subprojects {
-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
-    project.layout.buildDirectory.value(newSubprojectBuildDir)
-}
-subprojects {
-    project.evaluationDependsOn(":app")
+    // 3. Aplicamos aos subprojetos usando o nome do módulo para evitar conflitos
+    layout.buildDirectory.set(customBuildDir.dir(project.name))
+    
+    // 4. Mantenha isso apenas se for estritamente necessário para o seu fluxo
+    afterEvaluate {
+        if (project.path != ":app") {
+            evaluationDependsOn(":app")
+        }
+    }
 }
 
+// 5. Task de limpeza atualizada para a nova API
 tasks.register<Delete>("clean") {
-    delete(rootProject.layout.buildDirectory)
+    delete(customBuildDir)
 }

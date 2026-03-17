@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:helena_app/models/authModels.dart';
 import 'package:helena_app/services/auth_service.dart';
+import 'package:helena_app/services/hive_storage_service.dart';
 import 'package:helena_app/shared/result.dart';
 import 'package:provider/provider.dart';
 
 class LoginPageViewModel extends ChangeNotifier {
   final AuthService _authService;
+  final HiveStorageService _jwtStorageService;
   Icon suffixIcon = Icon(Icons.visibility_off);
   bool _loginIsLoading = false;
   bool _visibility = false;
 
-  LoginPageViewModel({required AuthService authService})
-    : _authService = authService;
+  LoginPageViewModel({required AuthService authService, required HiveStorageService jwtStorageService})
+    : _authService = authService:;
 
   bool get visibility => _visibility;
   bool get loginIsLoading => _loginIsLoading;
@@ -27,9 +29,10 @@ class LoginPageViewModel extends ChangeNotifier {
     notifyListeners();
     final Result<TokenModel> result = await _authService.login(email, password);
 
-    switch(result){
+    switch (result) {
       case Ok<TokenModel>():
         print(result.value);
+        print(result.value.accessToken);
         _loginIsLoading = false;
         notifyListeners();
         return true;

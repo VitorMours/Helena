@@ -30,7 +30,6 @@ class AuthService:
     is_valid = self.password_hash.verify(login_data["password"], user.password)
     
     if not is_valid:
-      # Erro de credenciais costuma ser 401 Unauthorized
       raise HTTPException(status_code=401, detail="Invalid password")
     payload = {"email":login_data["email"],"full_name":f"{user.first_name} {user.last_name}"}
     access_token = self.create_access_token(payload)
@@ -64,6 +63,12 @@ class AuthService:
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
   
+  
+  def reset_token(self) -> None:
+    pass 
+  
+  def verify_token(self) -> None:
+    pass
    
   
   
