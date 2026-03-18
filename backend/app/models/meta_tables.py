@@ -6,7 +6,7 @@ from app.db import Base
 import uuid
 
 class FirstLogin(Base):
-  __tablename__ == "first_login"
+  __tablename__ = "first_login"
   
   id: Mapped[uuid.UUID] = mapped_column(UUID, primary_key=True, index=True, default=uuid.uuid4)
   user: Mapped[uuid.UUID] = relationship(UUID, ForeignKey("tb_users.id"))
