@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:helena_app/models/authModels.dart';
 import 'package:helena_app/services/auth_service.dart';
+import 'package:helena_app/shared/result.dart';
 
 class SigninPageViewModel extends ChangeNotifier {
   Icon passwordVisibilitysuffixIcon = Icon(Icons.visibility_off);
@@ -27,5 +29,35 @@ class SigninPageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void signin() {}
+  Future<bool> signin(
+    String first_name,
+    String last_name,
+    String email,
+    String password,
+  ) async {
+    try {
+      final Result<SigninModel> result = await _authService.signin(
+        first_name,
+        last_name,
+        email,
+        password,
+      );
+
+      switch (result) {
+        case Ok<SigninModel>():
+
+          // TODO: Account created, need to login
+          // TODO: precisa fazer a requisicao de login
+          notifyListeners();
+          return true;
+        case Error<String>():
+        // Any Error
+
+        default:
+          break;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
 }

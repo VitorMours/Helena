@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:helena_app/models/authModels.dart';
 import 'package:helena_app/services/auth_service.dart';
-import 'package:helena_app/services/hive_storage_service.dart';
 import 'package:helena_app/shared/result.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../../services/jwt_storage_service.dart';
 
 class LoginPageViewModel extends ChangeNotifier {
   final AuthService _authService;
   final JWTStorageService _storageService;
+
   bool _loginIsLoading = false;
-  String? _loginError; // <- nullable, começa null
+  String? _loginError;
   bool _visibility = false;
 
   LoginPageViewModel({
@@ -22,7 +20,7 @@ class LoginPageViewModel extends ChangeNotifier {
 
   bool get visibility => _visibility;
   bool get loginIsLoading => _loginIsLoading;
-  String? get loginError => _loginError; // <- nullable
+  String? get loginError => _loginError;
 
   void toggleVisibility() {
     _visibility = !_visibility;
@@ -47,8 +45,8 @@ class LoginPageViewModel extends ChangeNotifier {
 
       switch (result) {
         case Ok<TokenModel>():
-          _loginIsLoading = false;
           _storageService.saveJwt(result.value.accessToken);
+          _loginIsLoading = false;
           notifyListeners();
           return true;
 

@@ -18,7 +18,7 @@ class AuthService {
     }
   }
 
-  Future<SigninModel> signin(
+  Future<Result<SigninModel>> signin(
     String firstName,
     String lastName,
     String email,
@@ -34,10 +34,10 @@ class AuthService {
           "password": password,
         },
       );
-      return SigninModel.fromJson(response.data);
+      return Result.ok(SigninModel.fromJson(response.data));
     } on DioException catch (e) {
       if (e.response?.statusCode == 409) {
-        throw "Esse usuario ja existe";
+        return Result.error("Esse usuario ja existe" as Exception);
       }
       throw "Erro ao conectar com o servidor.";
     }

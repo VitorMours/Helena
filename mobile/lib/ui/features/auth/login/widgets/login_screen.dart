@@ -97,12 +97,22 @@ class LoginScreen extends StatelessWidget {
                               style: const TextStyle(fontSize: 20),
                             ),
                       onPressed: () async {
+                        viewModel.clearError();
+                        _formKey.currentState!.validate();
+
                         if (_formKey.currentState!.validate()) {
-                          var success = await viewModel.login(
+                          final success = await viewModel.login(
                             emailController.text,
                             passwordController.text,
                           );
-                          print(success);
+
+                          if (context.mounted) {
+                            if (success) {
+                              context.go("/home");
+                            } else {
+                              _formKey.currentState!.validate();
+                            }
+                          }
                         }
                       },
                     ),

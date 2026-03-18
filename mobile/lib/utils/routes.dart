@@ -4,6 +4,8 @@ import "package:helena_app/services/auth_service.dart"; // Certifique-se de impo
 import "package:helena_app/ui/features/auth/login/viewmodel/login_viewmodel.dart";
 import "package:helena_app/ui/features/auth/login/widgets/login_screen.dart";
 import "package:helena_app/ui/features/auth/signin/viewmodel/signin_viewmodel.dart";
+import "package:helena_app/ui/features/home/viewmodel/home_viewmodel.dart";
+import "package:helena_app/ui/features/home/widgets/home_screen.dart";
 import "package:helena_app/ui/features/splash/widgets/splash_screen.dart";
 import "package:provider/provider.dart";
 
@@ -76,7 +78,34 @@ final GoRouter router = GoRouter(
         );
       },
     ),
-
+    GoRoute(
+      path: "/home",
+      name: "/home",
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: ChangeNotifierProvider(
+            create: (context) => HomeViewModel(),
+            child: HomeScreen(),
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position:
+                  Tween<Offset>(
+                    begin: const Offset(1.0, 0),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeInOutCubicEmphasized,
+                    ),
+                  ),
+              child: child,
+            );
+          },
+        );
+      },
+    ),
     GoRoute(
       path: "/",
       builder: (BuildContext context, GoRouterState state) => SplashScreen(),
